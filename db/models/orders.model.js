@@ -20,7 +20,9 @@ const OrdersSchema = {
         references: {
             model: "Clientes",
             key: "id_cliente"
-        }
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE"
     },
     total: {
         allowNull: false,
@@ -29,8 +31,9 @@ const OrdersSchema = {
 };
 
 class Orders extends Model {
-    static associate() {
-        // Define associations if necessary
+    static associate(models) {
+        this.belongsTo(models.User, { foreignKey: 'id_cliente', as: 'cliente' });
+        this.hasMany(models.DetailsOrders, { foreignKey: 'id_pedido', as: 'detalles' });
     }
 
     static config(sequelize) {

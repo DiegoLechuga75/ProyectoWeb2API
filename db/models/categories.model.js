@@ -18,8 +18,8 @@ const CategoriesSchema = {
 };
 
 class Categories extends Model {
-    static associate() {
-        // Define associations if necessary
+    static associate(models) {
+        this.hasMany(models.Videogames, { foreignKey: 'id_categoria', as: 'videojuegos' });
     }
 
     static config(sequelize) {

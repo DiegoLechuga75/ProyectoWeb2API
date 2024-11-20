@@ -10,7 +10,9 @@ const DetailsOrdersSchema = {
         references: {
             model: "Pedidos",
             key: "id_pedido"
-        }
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE"
     },
     id_videojuego: {
         allowNull: false,
@@ -19,7 +21,9 @@ const DetailsOrdersSchema = {
         references: {
             model: "Videojuegos",
             key: "id_videojuego"
-        }
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE"
     },
     cantidad: {
         allowNull: false,
@@ -36,8 +40,9 @@ const DetailsOrdersSchema = {
 };
 
 class DetailsOrders extends Model {
-    static associate() {
-        // Define associations if necessary
+    static associate(models) {
+        this.belongsTo(models.Orders, { foreignKey: 'id_pedido', as: 'pedido' });
+        this.belongsTo(models.Videogames, { foreignKey: 'id_videojuego', as: 'videojuego' });
     }
 
     static config(sequelize) {

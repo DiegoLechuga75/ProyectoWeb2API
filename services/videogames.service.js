@@ -1,36 +1,39 @@
 const boom = require('@hapi/boom');
 
 const sequelize = require("../libs/sequelize");
-const { query } = require('express');
+const { models } = require("./../libs/sequelize");
 
 class VideogamesService {
 
-    constructor() {
-        this.videogames = [];
-    }
+    constructor() {  }
 
     async create(data) {
-        return data;
+        const newVideogame = await models.Videogames.create(data);
+        return newVideogame;
     }
 
     async find() {
-        const query = "SELECT * FROM videojuegos"
-        const [data] = await sequelize.query(query);
-        return data
+        const response = await models.Videogames.findAll();
+        return response;
     }
 
     async findOne(id) {
-        return { id };
+        const videogame = await models.Videogames.findByPk(id);
+        if(!videogame){
+            throw boom.notFound("videogame not found");
+        }
+        return videogame;
     }
 
     async update(id, changes) {
-        return {
-            id,
-            changes
-        };
+        const videogame = this.findOne(id);
+        const response = await videogame.update(changes);
+        return response;
     }
 
     async delete(id) {
+        const videogame = this.findOne(id);
+        await videogame.destroy();
         return { id };
     }
 

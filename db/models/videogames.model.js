@@ -1,6 +1,5 @@
 const { Model, DataTypes } = require("sequelize");
 
-
 const VIDEOGAMES_TABLE = "Videojuegos";
 
 const VideogamesSchema = {
@@ -27,7 +26,9 @@ const VideogamesSchema = {
         references: {
             model: "Plataformas",
             key: "id_plataforma"
-        }
+        },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL"
     },
     id_categoria: {
         allowNull: false,
@@ -35,7 +36,9 @@ const VideogamesSchema = {
         references: {
             model: "Categorias",
             key: "id_categoria"
-        }
+        },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL"
     },
     stock: {
         allowNull: false,
@@ -49,8 +52,10 @@ const VideogamesSchema = {
 };
 
 class Videogames extends Model {
-    static associate() {
-        // Define associations if necessary
+    static associate(models) {
+        this.belongsTo(models.Platforms, { foreignKey: 'id_plataforma', as: 'plataforma' });
+        this.belongsTo(models.Categories, { foreignKey: 'id_categoria', as: 'categoria' });
+        this.hasMany(models.DetailsOrders, { foreignKey: 'id_videojuego', as: 'detalles' });
     }
 
     static config(sequelize) {
