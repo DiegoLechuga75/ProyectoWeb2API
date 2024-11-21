@@ -53,9 +53,8 @@ const VideogamesSchema = {
 
 class Videogames extends Model {
     static associate(models) {
-        this.belongsTo(models.Platforms, { foreignKey: 'id_plataforma', as: 'plataforma' });
-        this.belongsTo(models.Categories, { foreignKey: 'id_categoria', as: 'categoria' });
-        this.hasMany(models.DetailsOrders, { foreignKey: 'id_videojuego', as: 'detalles' });
+        this.belongsTo(models.Platforms, { foreignKey: 'id_plataforma', as: 'platform' });
+        this.belongsTo(models.Categories, { foreignKey: 'id_categoria', as: 'category' });
     }
 
     static config(sequelize) {

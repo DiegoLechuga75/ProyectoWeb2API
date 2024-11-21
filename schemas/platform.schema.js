@@ -1,21 +1,18 @@
 const Joi = require('joi');
 
-const id = Joi.number().integer();
-const name = Joi.string().min(3).max(15);
-const image = Joi.string().uri();
+const id_plataforma = Joi.number().integer();
+const nombre = Joi.string().min(3).max(255);
 
 const createPlatformSchema = Joi.object({
-    name: name.required(),
-    image: image.required()
+    nombre: nombre.required(),
 });
 
 const updatePlatformSchema = Joi.object({
-    name: name,
-    image: image
+    nombre,
 });
 
 const getPlatformSchema = Joi.object({
-    id: id.required(),
+    id_plataforma: id_plataforma.required(),
 });
 
-module.exports = { createPlatformSchema, updatePlatformSchema, getPlatformSchema }
+module.exports = { createPlatformSchema, updatePlatformSchema, getPlatformSchema };

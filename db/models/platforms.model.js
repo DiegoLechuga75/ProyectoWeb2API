@@ -18,7 +18,7 @@ const PlatformsSchema = {
 
 class Platforms extends Model {
     static associate(models) {
-        this.hasMany(models.Videogames, { foreignKey: 'id_plataforma', as: 'videojuegos' });
+        this.hasMany(models.Videogames, { foreignKey: 'id_plataforma', as: 'videogames' });
     }
 
     static config(sequelize) {

@@ -41,8 +41,8 @@ const DetailsOrdersSchema = {
 
 class DetailsOrders extends Model {
     static associate(models) {
-        this.belongsTo(models.Orders, { foreignKey: 'id_pedido', as: 'pedido' });
-        this.belongsTo(models.Videogames, { foreignKey: 'id_videojuego', as: 'videojuego' });
+        this.belongsTo(models.Orders, { foreignKey: 'id_pedido', as: 'order' });
+        this.hasOne(models.Videogames, { foreignKey: 'id_videojuego', as: 'videogame' });
     }
 
     static config(sequelize) {

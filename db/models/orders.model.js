@@ -32,8 +32,8 @@ const OrdersSchema = {
 
 class Orders extends Model {
     static associate(models) {
-        this.belongsTo(models.User, { foreignKey: 'id_cliente', as: 'cliente' });
-        this.hasMany(models.DetailsOrders, { foreignKey: 'id_pedido', as: 'detalles' });
+        this.belongsTo(models.User, { foreignKey: 'id_cliente', as: 'user' });
+        this.hasMany(models.DetailsOrders, { foreignKey: 'id_pedido', as: 'details' });
     }
 
     static config(sequelize) {
