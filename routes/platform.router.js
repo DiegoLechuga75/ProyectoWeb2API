@@ -16,12 +16,12 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.get('/:id',
+router.get('/:id_plataforma',
     validatorHandler(getPlatformSchema, 'params'),
     async (req, res, next) => {
         try {
-            const { id } = req.params;
-            const platform = await service.findOne(id);
+            const { id_plataforma } = req.params;
+            const platform = await service.findOne(id_plataforma);
             res.json(platform);
         } catch (error) {
             next(error);
@@ -42,14 +42,14 @@ router.post('/',
     }
 );
 
-router.patch('/:id',
+router.patch('/:id_plataforma',
     validatorHandler(getPlatformSchema, 'params'),
     validatorHandler(updatePlatformSchema, 'body'),
     async (req, res, next) => {
         try {
-            const { id } = req.params;
+            const { id_plataforma } = req.params;
             const body = req.body;
-            const platform = await service.update(id, body);
+            const platform = await service.update(id_plataforma, body);
             res.json(platform);
         } catch (error) {
             next(error);
@@ -57,13 +57,13 @@ router.patch('/:id',
     }
 );
 
-router.delete('/:id',
+router.delete('/:id_plataforma',
     validatorHandler(getPlatformSchema, 'params'),
     async (req, res, next) => {
         try {
-            const { id } = req.params;
-            await service.delete(id);
-            res.status(201).json({ id });
+            const { id_plataforma } = req.params;
+            await service.delete(id_plataforma);
+            res.status(201).json({ id_plataforma });
         } catch (error) {
             next(error);
         }

@@ -15,12 +15,12 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:id',
+router.get('/:id_categoria',
     validatorHandler(getCategorySchema, 'params'),
     async (req, res, next) => {
         try {
-            const { id } = req.params;
-            const category = await service.findOne(id);
+            const { id_categoria } = req.params;
+            const category = await service.findOne(id_categoria);
             res.json(category);
         } catch (error) {
             next(error);
@@ -41,14 +41,14 @@ router.post('/',
     }
 );
 
-router.patch('/:id',
+router.patch('/:id_categoria',
     validatorHandler(getCategorySchema, 'params'),
     validatorHandler(updateCategorySchema, 'body'),
     async (req, res, next) => {
         try {
-            const { id } = req.params;
+            const { id_categoria } = req.params;
             const body = req.body;
-            const category = await service.update(id, body);
+            const category = await service.update(id_categoria, body);
             res.json(category);
         } catch (error) {
             next(error);
@@ -56,13 +56,13 @@ router.patch('/:id',
     }
 );
 
-router.delete('/:id',
+router.delete('/:id_categoria',
     validatorHandler(getCategorySchema, 'params'),
     async (req, res, next) => {
         try {
-            const { id } = req.params;
-            await service.delete(id);
-            res.status(201).json({ id });
+            const { id_categoria } = req.params;
+            await service.delete(id_categoria);
+            res.status(201).json({ id_categoria });
         } catch (error) {
             next(error);
         }

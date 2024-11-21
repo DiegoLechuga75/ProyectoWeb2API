@@ -15,12 +15,12 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:id',
+router.get('/:id_pedido',
     validatorHandler(getOrderSchema, 'params'),
     async (req, res, next) => {
         try {
-            const { id } = req.params;
-            const order = await service.findOne(id);
+            const { id_pedido } = req.params;
+            const order = await service.findOne(id_pedido);
             res.json(order);
         } catch (error) {
             next(error);
@@ -41,14 +41,14 @@ router.post('/',
     }
 );
 
-router.patch('/:id',
+router.patch('/:id_pedido',
     validatorHandler(getOrderSchema, 'params'),
     validatorHandler(updateOrderSchema, 'body'),
     async (req, res, next) => {
         try {
-            const { id } = req.params;
+            const { id_pedido } = req.params;
             const body = req.body;
-            const order = await service.update(id, body);
+            const order = await service.update(id_pedido, body);
             res.json(order);
         } catch (error) {
             next(error);
@@ -56,13 +56,13 @@ router.patch('/:id',
     }
 );
 
-router.delete('/:id',
+router.delete('/:id_pedido',
     validatorHandler(getOrderSchema, 'params'),
     async (req, res, next) => {
         try {
-            const { id } = req.params;
-            await service.delete(id);
-            res.status(201).json({ id });
+            const { id_pedido } = req.params;
+            await service.delete(id_pedido);
+            res.status(201).json({ id_pedido });
         } catch (error) {
             next(error);
         }

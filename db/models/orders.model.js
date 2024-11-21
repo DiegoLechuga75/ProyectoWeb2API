@@ -1,14 +1,13 @@
 const { Model, DataTypes } = require("sequelize");
 
-
-const ORDERS_TABLE = "Pedidos";
+const ORDERS_TABLE = "pedidos";
 
 const OrdersSchema = {
     id_pedido: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
     },
     fecha_pedido: {
         allowNull: false,
@@ -18,22 +17,25 @@ const OrdersSchema = {
         allowNull: false,
         type: DataTypes.INTEGER,
         references: {
-            model: "Clientes",
-            key: "id_cliente"
+            model: "clientes",
+            key: "id_cliente",
         },
         onUpdate: "CASCADE",
-        onDelete: "CASCADE"
+        onDelete: "CASCADE",
     },
     total: {
         allowNull: false,
         type: DataTypes.DECIMAL(10, 2),
-    }
+        validate: {
+            min: 0,
+        },
+    },
 };
 
 class Orders extends Model {
     static associate(models) {
-        this.belongsTo(models.User, { foreignKey: 'id_cliente', as: 'user' });
-        this.hasMany(models.DetailsOrders, { foreignKey: 'id_pedido', as: 'details' });
+        this.belongsTo(models.User, { foreignKey: "id_cliente", as: "user" });
+        this.hasMany(models.DetailsOrders, { foreignKey: "id_pedido", as: "details" });
     }
 
     static config(sequelize) {

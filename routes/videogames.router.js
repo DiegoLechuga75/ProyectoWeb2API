@@ -16,12 +16,12 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.get('/:id',
+router.get('/:id_videojuego',
     validatorHandler(getVideogameSchema, 'params'),
     async (req, res, next) => {
         try {
-            const { id } = req.params;
-            const videogame = await service.findOne(id);
+            const { id_videojuego } = req.params;
+            const videogame = await service.findOne(id_videojuego);
             res.json(videogame);
         } catch (error) {
             next(error);
@@ -42,14 +42,14 @@ router.post('/',
     }
 );
 
-router.patch('/:id',
+router.patch('/::id_videojuego',
     validatorHandler(getVideogameSchema, 'params'),
     validatorHandler(updateVideogameSchema, 'body'),
     async (req, res, next) => {
         try {
-            const { id } = req.params;
+            const { id_videojuego } = req.params;
             const body = req.body;
-            const videogame = await service.update(id, body);
+            const videogame = await service.update(id_videojuego, body);
             res.json(videogame);
         } catch (error) {
             next(error);
@@ -57,12 +57,12 @@ router.patch('/:id',
     }
 );
 
-router.delete('/:id',
+router.delete('/:id_videojuego',
     validatorHandler(getVideogameSchema, 'params'),
     async (req, res, next) => {
         try {
-            const { id } = req.params;
-            await service.delete(id);
+            const { id_videojuego } = req.params;
+            await service.delete(id_videojuego);
             res.status(201).json({ id });
         } catch (error) {
             next(error);

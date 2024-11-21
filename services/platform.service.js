@@ -1,20 +1,24 @@
 const boom = require('@hapi/boom');
 
+const { models } = require("./../libs/sequelize");
+
 class PlatformService {
     constructor() { }
 
     async create(data) {
-        const newPlatform = await models.Platform.create(data);
+        const newPlatform = await models.Platforms.create(data);
         return newPlatform;
     }
 
     async find() {
-        const response = await models.Platform.findAll();
+        const response = await models.Platforms.findAll();
         return response;
     }
 
     async findOne(id) {
-        const platform = await models.Platform.findByPk(id);
+        const platform = await models.Platforms.findByPk(id, {
+            include: ['videogames'],
+        });
         if(!platform){
             throw boom.notFound("platform not found");
         }

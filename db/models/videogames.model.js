@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require("sequelize");
 
-const VIDEOGAMES_TABLE = "Videojuegos";
+const VIDEOGAMES_TABLE = "videojuegos";
 
 const VideogamesSchema = {
     id_videojuego: {
@@ -17,24 +17,33 @@ const VideogamesSchema = {
         allowNull: false,
         type: DataTypes.DECIMAL(10, 2),
     },
-    fecha_lanzamiento: {
-        type: DataTypes.DATE,
+    trailer: {
+        allowNull: false,
+        type: DataTypes.STRING
+    },
+    img: {
+        allowNull: false,
+        type: DataTypes.STRING
+    },
+    description: {
+        allowNull: false,
+        type: DataTypes.TEXT
     },
     id_plataforma: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.INTEGER,
         references: {
-            model: "Plataformas",
+            model: "plataformas",
             key: "id_plataforma"
         },
         onUpdate: "CASCADE",
         onDelete: "SET NULL"
     },
     id_categoria: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.INTEGER,
         references: {
-            model: "Categorias",
+            model: "categorias",
             key: "id_categoria"
         },
         onUpdate: "CASCADE",

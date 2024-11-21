@@ -12,21 +12,21 @@ const contrasena = Joi.string().min(8);
 const createUserSchema = Joi.object({
     nombre: nombre.required(),
     correo: correo.required(),
+    contrasena: contrasena.required(),
     telefono: telefono.required(),
     direccion: direccion.required(),
     rol: rol.required(),
     usuario: usuario.required(),
-    contrasena: contrasena.required(),
 });
 
 const updateUserSchema = Joi.object({
     nombre,
     correo,
+    contrasena,
     telefono,
     direccion,
     rol,
     usuario,
-    contrasena,
 });
 
 const getUserSchema = Joi.object({

@@ -11,14 +11,14 @@ class CategoriesService {
     }
 
     async find() {
-        const response = await models.Categories.findAll({
-            include: ['videogames'],
-        });
+        const response = await models.Categories.findAll();
         return response;
     }
 
     async findOne(id) {
-        const category = await models.Categories.findByPk(id);
+        const category = await models.Categories.findByPk(id, {
+            include: ['videogames'],
+        });
         if(!category){
             throw boom.notFound("category not found");
         }

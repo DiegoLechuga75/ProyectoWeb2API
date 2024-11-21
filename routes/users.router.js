@@ -16,12 +16,12 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.get('/:id',
+router.get('/:id_cliente',
     validatorHandler(getUserSchema, 'params'),
     async (req, res, next) => {
         try {
-            const { id } = req.params;
-            const category = await service.findOne(id);
+            const { id_cliente } = req.params;
+            const category = await service.findOne(id_cliente);
             res.json(category);
         } catch (error) {
             next(error);
@@ -42,14 +42,14 @@ router.post('/',
     }
 );
 
-router.patch('/:id',
+router.patch('/:id_cliente',
     validatorHandler(getUserSchema, 'params'),
     validatorHandler(updateUserSchema, 'body'),
     async (req, res, next) => {
         try {
-            const { id } = req.params;
+            const { id_cliente } = req.params;
             const body = req.body;
-            const user = await service.update(id, body);
+            const user = await service.update(id_cliente, body);
             res.json(user);
         } catch (error) {
             next(error);
@@ -57,13 +57,13 @@ router.patch('/:id',
     }
 );
 
-router.delete('/:id',
+router.delete('/:id_cliente',
     validatorHandler(getUserSchema, 'params'),
     async (req, res, next) => {
         try {
-            const { id } = req.params;
-            await service.delete(id);
-            res.status(201).json({ id });
+            const { id_cliente } = req.params;
+            await service.delete(id_cliente);
+            res.status(201).json({ id_cliente });
         } catch (error) {
             next(error);
         }

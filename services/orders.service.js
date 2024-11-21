@@ -1,5 +1,7 @@
 const boom = require('@hapi/boom');
 
+const { models } = require("./../libs/sequelize");
+
 class OrderService {
     constructor() { }
 
@@ -14,7 +16,9 @@ class OrderService {
     }
 
     async findOne(id) {
-        const order = await models.Orders.findByPk(id);
+        const order = await models.Orders.findByPk(id, {
+            include: ['details']
+        });
         if(!order){
             throw boom.notFound("order not found");
         }

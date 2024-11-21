@@ -1,4 +1,4 @@
-const { Model, DataTypes, Sequelize } = require("sequelize");
+const { Model, DataTypes } = require("sequelize");
 
 const USER_TABLE = "clientes";
 
@@ -7,25 +7,34 @@ const UserSchema = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        unique: true,
         type: DataTypes.INTEGER
     },
     nombre: {
         allowNull: false,
         type: DataTypes.STRING,
     },
-    correo:{
+    correo: {
         allowNull: false,
         type: DataTypes.STRING,
         unique: true,
+        validate: {
+            isEmail: true,
+        },
+    },
+    contrasena: {
+        allowNull: false,
+        type: DataTypes.STRING,
     },
     telefono: {
         allowNull: false,
         type: DataTypes.STRING,
+        validate: {
+            is: /^[0-9]+$/i,
+        },
     },
     direccion: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
     rol: {
         allowNull: false,
@@ -34,25 +43,22 @@ const UserSchema = {
     usuario: {
         allowNull: false,
         type: DataTypes.STRING,
+        unique: true,
     },
-    contrasena: {
-        allowNull: false,
-        type: DataTypes.STRING
-    },
-}
+};
 
 class User extends Model {
     static associate(models) {
-        this.hasMany(models.Orders, { foreignKey: 'id_cliente', as: 'orders' });
+        this.hasMany(models.Orders, { foreignKey: "id_cliente", as: "orders" });
     }
 
-    static config(sequelize){
-        return{
+    static config(sequelize) {
+        return {
             sequelize,
             tableName: USER_TABLE,
             modelName: "User",
             timestamps: false,
-        }
+        };
     }
 }
 
