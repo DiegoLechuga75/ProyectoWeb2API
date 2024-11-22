@@ -26,13 +26,13 @@ class PlatformService {
     }
 
     async update(id, changes) {
-        const platform = this.findOne(id);
+        const platform = await this.findOne(id);
         const response = await platform.update(changes);
         return response;
     }
 
     async delete(id) {
-        const platform = this.findOne(id);
+        const platform = await this.findOne(id);
         await platform.destroy();
         return { id };
     }

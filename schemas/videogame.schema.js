@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const id_videojuego = Joi.number().integer();
-const nombre = Joi.string().min(3).max(255);
+const nombre = Joi.string().max(255);
 const precio = Joi.number().precision(2).min(0);
 const img = Joi.string().uri();
 const trailer = Joi.string().uri();
@@ -18,8 +18,8 @@ const createVideogameSchema = Joi.object({
     trailer: trailer.required(),
     description: description.required(),
     stock: stock.required(),
-    id_plataforma: id_plataforma.required(),
-    id_categoria: id_categoria.required(),
+    id_plataforma: id_plataforma,
+    id_categoria: id_categoria,
     precio_real: precio_real.required()
 });
 

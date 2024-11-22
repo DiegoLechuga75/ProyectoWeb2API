@@ -7,7 +7,7 @@ const telefono = Joi.string().max(255);
 const direccion = Joi.string().max(255);
 const rol = Joi.string().valid("cliente", "admin");
 const usuario = Joi.string().max(255);
-const contrasena = Joi.string().min(8);
+const contrasena = Joi.string();
 
 const createUserSchema = Joi.object({
     nombre: nombre.required(),

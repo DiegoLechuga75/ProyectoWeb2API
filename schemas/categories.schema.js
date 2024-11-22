@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const id_categoria = Joi.number().integer();
-const nombre = Joi.string().min(3).max(255);
+const nombre = Joi.string().max(255);
 
 const createCategorySchema = Joi.object({
     nombre: nombre.required(),

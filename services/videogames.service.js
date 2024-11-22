@@ -25,13 +25,13 @@ class VideogamesService {
     }
 
     async update(id, changes) {
-        const videogame = this.findOne(id);
+        const videogame = await this.findOne(id);
         const response = await videogame.update(changes);
         return response;
     }
 
     async delete(id) {
-        const videogame = this.findOne(id);
+        const videogame = await this.findOne(id);
         await videogame.destroy();
         return { id };
     }

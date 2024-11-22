@@ -37,16 +37,11 @@ const DetailsOrdersSchema = {
             min: 0,
         },
     },
-    forma_de_pago: {
-        allowNull: false,
-        type: DataTypes.ENUM("efectivo", "tarjeta", "transferencia"),
-    },
 };
 
 class DetailsOrders extends Model {
     static associate(models) {
-        this.belongsTo(models.Orders, { foreignKey: "id_pedido", as: "order" });
-        this.belongsTo(models.Videogames, { foreignKey: "id_videojuego", as: "videogame" });
+
     }
 
     static config(sequelize) {

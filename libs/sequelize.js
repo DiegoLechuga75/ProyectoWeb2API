@@ -14,6 +14,10 @@ const sequelize = new Sequelize(URI, {
 
 setupModels(sequelize);
 
-sequelize.sync();
+const syncTables = async (sequelize) => {
+    await sequelize.sync()
+}
+
+syncTables(sequelize);
 
 module.exports = sequelize;

@@ -42,7 +42,7 @@ router.post('/',
     }
 );
 
-router.patch('/::id_videojuego',
+router.patch('/:id_videojuego',
     validatorHandler(getVideogameSchema, 'params'),
     validatorHandler(updateVideogameSchema, 'body'),
     async (req, res, next) => {
