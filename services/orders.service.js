@@ -11,18 +11,30 @@ class OrderService {
     }
 
     async find() {
-        const response = await models.Orders.findAll();
+        const response = await models.Orders.findAll({
+            include: ['user', 'items']
+        });
         return response;
     }
 
     async findOne(id) {
         const order = await models.Orders.findByPk(id, {
-            include: ['items']
+            include: ['user', 'items']
         });
         if(!order){
             throw boom.notFound("order not found");
         }
         return order;
+    }
+
+    async findByUser(userId){
+        const orders = await models.Orders.findAll({
+            where: {
+                '$user.id_cliente$': userId
+            },
+            include: ['user', 'items']
+        })
+        return orders;
     }
 
     async update(id, changes) {

@@ -1,3 +1,4 @@
+const { allow } = require("joi");
 const { Model, DataTypes } = require("sequelize");
 
 const USER_TABLE = "clientes";
@@ -24,6 +25,15 @@ const UserSchema = {
     contrasena: {
         allowNull: false,
         type: DataTypes.STRING,
+    },
+    confirmado: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
+    token_confirmacion: {
+        allowNull: true,
+        type: DataTypes.STRING
     },
     telefono: {
         allowNull: false,

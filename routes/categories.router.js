@@ -1,6 +1,9 @@
 const express = require('express');
 const CategoriesService = require("./../services/categories.service");
 const validatorHandler = require('./../middlewares/validator.handler');
+const { checkRoles } = require('./../middlewares/auth.handler');
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
 const { getCategorySchema, updateCategorySchema, createCategorySchema } = require('./../schemas/categories.schema');
 
 const router = express.Router();
@@ -28,8 +31,11 @@ router.get('/:id_categoria',
     }
 );
 
+//Para usar checkRoles debemos incluir con anterioridad passport.authenticate para verificar el jwt en la petición
 router.post('/',
     validatorHandler(createCategorySchema, 'body'),
+    passport.authenticate('jwt', {session:false}),
+    checkRoles('admin'),
     async (req, res, next) => {
         try {
             const body = req.body;
@@ -44,6 +50,8 @@ router.post('/',
 router.patch('/:id_categoria',
     validatorHandler(getCategorySchema, 'params'),
     validatorHandler(updateCategorySchema, 'body'),
+    passport.authenticate('jwt', {session:false}),
+    checkRoles('admin'),
     async (req, res, next) => {
         try {
             const { id_categoria } = req.params;
@@ -58,6 +66,8 @@ router.patch('/:id_categoria',
 
 router.delete('/:id_categoria',
     validatorHandler(getCategorySchema, 'params'),
+    passport.authenticate('jwt', {session:false}),
+    checkRoles('admin'),
     async (req, res, next) => {
         try {
             const { id_categoria } = req.params;

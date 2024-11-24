@@ -1,7 +1,9 @@
 const express = require('express');
+const passport = require('passport');
 
 const PlatformService = require('./../services/platform.service');
 const validatorHandler = require('./../middlewares/validator.handler');
+const { checkRoles } = require('./../middlewares/auth.handler');
 const { createPlatformSchema, updatePlatformSchema, getPlatformSchema } = require('./../schemas/platform.schema');
 
 const router = express.Router();
@@ -31,6 +33,8 @@ router.get('/:id_plataforma',
 
 router.post('/',
     validatorHandler(createPlatformSchema, 'body'),
+    passport.authenticate('jwt', {session:false}),
+    checkRoles('admin'),
     async (req, res, next) => {
         try {
             const body = req.body;
@@ -45,6 +49,8 @@ router.post('/',
 router.patch('/:id_plataforma',
     validatorHandler(getPlatformSchema, 'params'),
     validatorHandler(updatePlatformSchema, 'body'),
+    passport.authenticate('jwt', {session:false}),
+    checkRoles('admin'),
     async (req, res, next) => {
         try {
             const { id_plataforma } = req.params;
@@ -59,6 +65,8 @@ router.patch('/:id_plataforma',
 
 router.delete('/:id_plataforma',
     validatorHandler(getPlatformSchema, 'params'),
+    passport.authenticate('jwt', {session:false}),
+    checkRoles('admin'),
     async (req, res, next) => {
         try {
             const { id_plataforma } = req.params;

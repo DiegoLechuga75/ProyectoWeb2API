@@ -1,22 +1,31 @@
 const express = require('express');
+const passport = require('passport');
+
 const DetailsOrderService = require("../services/detailsOrder.service");
 const validatorHandler = require('../middlewares/validator.handler');
+const { checkRoles } = require('./../middlewares/auth.handler');
 const { createDetailsOrderSchema, updateDetailsOrderSchema, getDetailsOrderSchema } = require("../schemas/detailsOrder.schema");
 
 const router = express.Router();
 const service = new DetailsOrderService();
 
-router.get('/', async (req, res) => {
-    try {
-        const details = await service.find();
-        res.json(details);
-    } catch (error) {
-        next(error);
+router.get('/',
+    passport.authenticate('jwt', {session:false}),
+    checkRoles('admin'),
+    async (req, res) => {
+        try {
+            const details = await service.find();
+            res.json(details);
+        } catch (error) {
+            next(error);
+        }
     }
-});
+);
 
 router.get('/:id',
     validatorHandler(getDetailsOrderSchema, 'params'),
+    passport.authenticate('jwt', {session:false}),
+    checkRoles('admin', 'cliente'),
     async (req, res, next) => {
         try {
             const { id } = req.params;
