@@ -11,7 +11,9 @@ const service = new VideogamesService();
 
 router.get('/', async (req, res, next) => {
     try {
-        const videogames = await service.find();
+        const { nombre, id_plataforma } = req.query;
+        const filters = { nombre, id_plataforma };
+        const videogames = await service.findByFilters(filters);
         res.json(videogames);
     } catch (error) {
         next(error);
@@ -71,7 +73,7 @@ router.delete('/:id_videojuego',
         try {
             const { id_videojuego } = req.params;
             await service.delete(id_videojuego);
-            res.status(201).json({ id });
+            res.status(201).json({ id_videojuego });
         } catch (error) {
             next(error);
         }

@@ -2,6 +2,7 @@ const boom = require('@hapi/boom');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const { MailtrapTransport } = require("mailtrap");
 
 const { models } = require("./../libs/sequelize");
 const { config } = require('./../configEnv/config.env');
@@ -40,20 +41,23 @@ class AuthService {
         };
     }
 
-    async sendConfirmation (email) {
+    async sendConfirmation(email) {
         const user = await service.findByEmail(email);
-        if(!user){
+        if (!user) {
             throw boom.unauthorized();
         }
         const payload = {
             sub: user.id_cliente,
         }
-        const token = jwt.sign(payload, config.jwtSecret, {expiresIn: '15min'});
-        const link = `http://127.0.0.1:5500/confirm?token=${token}`;
+        const token = jwt.sign(payload, config.jwtSecret, { expiresIn: '15min' });
+        const link = `http://127.0.0.1:5500/confirm.html?token=${token}`;
         await service.update(user.id_cliente, { token_confirmacion: token })
         const mail = {
-            form: "Proyecto Web 2 <web2@gmail.com>",
-            to: `${email}`,
+            from: {
+                address: "hello@demomailtrap.com",
+                name: "Tienda Juegos",
+            },
+            to: `diegolechuga319@aragon.unam.mx`,
             subject: "Confirmación de correo ✔",
             html: `<p>Ingresa al siguiente link para confirmar tu correo => ${link}</p>`,
         }
@@ -62,27 +66,24 @@ class AuthService {
     }
 
     async sendMail(infoMail) {
-        const transport = nodemailer.createTransport({
-            host: "sandbox.smtp.mailtrap.io",
-            port: 2525,
-            auth: {
-                user: config.mailtrapUser,
-                pass: config.mailtrapPassword
-            }
-        });
+        const transport = nodemailer.createTransport(
+            MailtrapTransport({
+                token: config.mailtrapPassword,
+            })
+        );
         await transport.sendMail(infoMail);
-        return { message: 'Mail sent!'}
+        return { message: 'Mail sent!' }
     }
 
-    async confirmMail(token){
+    async confirmMail(token) {
         try {
             const payload = jwt.verify(token, config.jwtSecret);
             const user = await service.findOne(payload.sub);
-            if (user.token_confirmacion !== token){
+            if (user.token_confirmacion !== token) {
                 throw boom.unauthorized();
             }
-            await service.update(user.id_cliente, {token_confirmacion: null, confirmado: true});
-            return { message: 'email confirmado'};
+            await service.update(user.id_cliente, { token_confirmacion: null, confirmado: true });
+            return { message: 'email confirmado' };
         } catch (error) {
             throw boom.unauthorized();
         }
